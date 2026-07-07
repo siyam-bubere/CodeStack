@@ -1,7 +1,5 @@
-// Array holding your appends in runtime memory
 let codeStack = [];
 
-// 1. Generate and render the workspace sidebar UI
 const panel = document.createElement('div');
 panel.id = 'jupyter-collector-panel';
 panel.innerHTML = `
@@ -26,30 +24,28 @@ function updatePreview() {
   }
 }
 
-// 2. Generic, multi-platform raw text parser
 function getTargetBlockText(node) {
-  // Try platform-specific text targets (CodeMirror blocks, pre tags, or markdown displays)
+  
   const codeEditorBlock = node.querySelector('.CodeMirror-code, .cm-content, pre, code');
   if (codeEditorBlock) {
     return codeEditorBlock.innerText || codeEditorBlock.textContent || "";
   }
   
-  // Fallback structural target for interactive textareas
+  
   const inputArea = node.querySelector('textarea');
   return inputArea ? inputArea.value : "";
 }
 
-// 3. Injector engine scanning for code elements
 function injectCellButtons() {
-  // Query targets: Jupyter Classic (.cell), JupyterLab (.jp-Notebook-cell), Google Colab (.cell), ChatGPT (pre), GitHub (.blob-wrapper or pre)
+  
   const selectors = '.cell, .jp-Notebook-cell, pre, .blob-wrapper';
   const blocks = document.querySelectorAll(selectors);
 
   blocks.forEach(block => {
-    // Skip if button is already present, or if it's our own preview window
+    
     if (block.querySelector('.jupyter-append-cell-btn') || block.id === 'collected-preview') return;
 
-    // Isolate appropriate nested header toolbar or fall back to the frame parent element
+    
     const containerAnchor = block.querySelector('.cell-toolbar-wrapper, .jp-Cell-toolbar, .toolbar') || block;
     
     const appendBtn = document.createElement('button');
@@ -62,13 +58,12 @@ function injectCellButtons() {
       const parsedText = getTargetBlockText(block);
       
       if (parsedText && parsedText.trim().length > 0) {
-        // Strip out injected button's own text if nested inside text processing fallback loop
+        
         let cleanText = parsedText.replace('➕ Append', '').replace('✅ Added!', '').trim();
         
         codeStack.push(cleanText);
         updatePreview();
         
-        // Provide successful interaction notification on target node
         appendBtn.innerText = '✅ Added!';
         appendBtn.style.backgroundColor = '#48bb78';
         appendBtn.style.color = '#ffffff';
@@ -80,7 +75,6 @@ function injectCellButtons() {
       }
     });
 
-    // Layout configuration rule based on structural fallback selection
     if (containerAnchor === block) {
       appendBtn.style.position = 'relative';
       appendBtn.style.float = 'right';
@@ -92,12 +86,12 @@ function injectCellButtons() {
   });
 }
 
-// 4. Fire on setup, then pass tracking to background observer
+
 injectCellButtons();
 const webObserver = new MutationObserver(() => injectCellButtons());
 webObserver.observe(document.body, { childList: true, subtree: true });
 
-// 5. Global Action Handlers
+
 copyBtn.addEventListener('click', () => {
   if (codeStack.length === 0) return;
   const deliveryPayload = codeStack.join("\n\n");
