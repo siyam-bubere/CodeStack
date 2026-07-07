@@ -15,3 +15,8 @@ A free browser extension that lets you append multiple code blocks across Jupyte
 - Open any Jupyter Notebook, Google Colab, GitHub file, or ChatGPT window.
 - Click the **➕ Append** button next to any code block to add it to your sidebar stack.
 - Click **📋 Copy Combined Code** to grab everything at once, separated cleanly by line breaks!
+
+## How to Customize it to use at other websites
+
+1. Open manifest.json file
+2. Add the website URL under the content_scripts.matches
