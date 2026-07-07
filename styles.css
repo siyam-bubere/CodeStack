@@ -4,24 +4,62 @@
   top: 20px;
   right: 20px;
   width: 280px;
-  height: 360px; /* Slightly more compact to preserve screen estate */
+  height: 380px;
   background: #f8f9fa;
   border: 2px solid #cfd8dc;
   border-radius: 8px;
-  z-index: 99999; 
+  z-index: 999999; 
   display: flex;
   flex-direction: column;
-  padding: 12px;
   box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  
-  /* Smoothly transition when we resize or move it */
-  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+  transition: height 0.2s ease-in-out, opacity 0.15s ease;
 }
 
-/* HOVER EFFECT: Shrink opacity slightly when mouse leaves, full focus on hover */
+/* Subtle fade when not active, full focus on hover */
 #jupyter-collector-panel:not(:hover) {
-  opacity: 0.4; /* Becomes semi-transparent when you work near it */
+  opacity: 0.6;
+}
+
+/* New Grab/Drag Header Row */
+.panel-header {
+  background: #cfd8dc;
+  padding: 6px 10px;
+  cursor: move; /* Shows the dragging crosshair */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.panel-header h3 { 
+  margin: 0; 
+  font-size: 13px; 
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+/* Minimize / Maximize Button */
+#collapse-panel-btn {
+  background: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: bold;
+}
+#collapse-panel-btn:hover { background: #2b6cb0; }
+
+/* Wrapper wrapper for panel contents (hidden when collapsed) */
+.panel-content {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  flex-grow: 1;
+  height: calc(100% - 32px);
 }
 
 /* Code Snippet Preview Window */
@@ -36,23 +74,21 @@
   font-family: "Fira Code", Consolas, Monaco, monospace;
   font-size: 11px;
   white-space: pre-wrap;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 /* Control Buttons inside Panel */
 .collector-btn {
-  padding: 8px 12px;
-  margin-top: 6px;
+  padding: 6px 12px;
+  margin-top: 4px;
   background: #3182ce;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 13px;
-  transition: background 0.2s ease;
+  font-size: 12px;
 }
-
 .collector-btn:hover { background: #2b6cb0; }
 #clear-panel-btn { background: #e53e3e; }
 #clear-panel-btn:hover { background: #c53030; }
@@ -70,11 +106,5 @@
   margin: 4px;
   display: inline-block;
   vertical-align: middle;
-  transition: all 0.15s ease;
 }
-
-.jupyter-append-cell-btn:hover {
-  background-color: #e2e8f0;
-  border-color: #a0aec0;
-  color: #2d3748;
-}
+.jupyter-append-cell-btn:hover { background-color: #e2e8f0; }
