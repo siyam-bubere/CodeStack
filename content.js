@@ -1,6 +1,5 @@
 let codeStack = [];
 
-// 1. Generate the sidebar structure with a Header/Drag bar and Content section
 const panel = document.createElement('div');
 panel.id = 'jupyter-collector-panel';
 panel.innerHTML = `
@@ -35,7 +34,6 @@ function updatePreview() {
   }
 }
 
-// 2. Collapsible Panel Logic
 collapseBtn.addEventListener('click', (e) => {
   e.stopPropagation();
   isCollapsed = !isCollapsed;
@@ -52,13 +50,12 @@ collapseBtn.addEventListener('click', (e) => {
   }
 });
 
-// 3. Movable/Draggable Logic
 let isDragging = false;
 let offsetX, offsetY;
 
 dragHandle.addEventListener('mousedown', (e) => {
   isDragging = true;
-  // Calculate relative cursor position inside the header
+
   offsetX = e.clientX - panel.getBoundingClientRect().left;
   offsetY = e.clientY - panel.getBoundingClientRect().top;
   dragHandle.style.cursor = 'grabbing';
@@ -67,13 +64,12 @@ dragHandle.addEventListener('mousedown', (e) => {
 document.addEventListener('mousemove', (e) => {
   if (!isDragging) return;
   
-  // Set position variables relative to page bounds
   let newX = e.clientX - offsetX;
   let newY = e.clientY - offsetY;
   
   panel.style.left = `${newX}px`;
   panel.style.top = `${newY}px`;
-  panel.style.right = 'auto';  // Break default CSS anchoring alignment
+  panel.style.right = 'auto';  
   panel.style.bottom = 'auto';
 });
 
@@ -82,7 +78,7 @@ document.addEventListener('mouseup', () => {
   dragHandle.style.cursor = 'move';
 });
 
-// 4. Multi-platform raw text parser
+
 function getTargetBlockText(node) {
   const codeEditorBlock = node.querySelector('.CodeMirror-code, .cm-content, pre, code');
   if (codeEditorBlock) {
@@ -92,7 +88,6 @@ function getTargetBlockText(node) {
   return inputArea ? inputArea.value : "";
 }
 
-// 5. Injector engine scanning for code elements
 function injectCellButtons() {
   const selectors = '.cell, .jp-Notebook-cell, pre, .blob-wrapper';
   const blocks = document.querySelectorAll(selectors);
@@ -138,7 +133,7 @@ function injectCellButtons() {
   });
 }
 
-// 6. Execution Hooks
+
 injectCellButtons();
 const webObserver = new MutationObserver(() => injectCellButtons());
 webObserver.observe(document.body, { childList: true, subtree: true });
