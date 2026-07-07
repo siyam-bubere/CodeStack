@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "CodeStack",
+  "version": "1.1",
+  "description": "Appends multiple code cells/blocks across Jupyter, Colab, GitHub, and ChatGPT into one master clipboard.",
+  "permissions": [
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+        "https://colab.research.google.com/*",
+        "https://chatgpt.com/*",
+        "https://github.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}
