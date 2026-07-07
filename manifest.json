@@ -6,6 +6,11 @@
   "permissions": [
     "storage"
   ],
+  "icons": {
+    "16": "icon.jpeg",
+    "48": "icon.jpeg",
+    "128": "icon.jpeg"
+  },
   "content_scripts": [
     {
       "matches": [
